@@ -42,6 +42,10 @@ export class HomePage extends React.PureComponent {
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
+    if (this.props.match.params.userName) {
+      this.props.loadRoute(this.props.match.params.userName);
+      this.props.onSubmitForm();
+    }
   }
 
   render() {
@@ -98,10 +102,12 @@ export class HomePage extends React.PureComponent {
 }
 
 HomePage.propTypes = {
+  match: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onSubmitForm: PropTypes.func,
+  loadRoute: PropTypes.func,
   username: PropTypes.string,
   onChangeUsername: PropTypes.func,
 };
@@ -113,6 +119,7 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
+    loadRoute: route => dispatch(changeUsername(route)),
   };
 }
 
